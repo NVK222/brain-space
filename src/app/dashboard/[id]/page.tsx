@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { UploadButton } from "@/components/UploadButton";
 import WorkspacePageFileCard from "@/components/WorkspacePageFileCard";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft } from "lucide-react";
@@ -47,7 +48,7 @@ export default async function WorkspacePage({ params }: WorkspacePageProps) {
         </Link>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">{workspace.name}</h1>
-          <Button>Upload PDF</Button>
+          <UploadButton workspaceId={workspace.id} />
         </div>
       </div>
 
