@@ -45,21 +45,21 @@ export type Database = {
       }
       documents: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: string
           name: string
           storage_url: string
           workspace_id: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           name: string
           storage_url: string
           workspace_id: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           name?: string
           storage_url?: string
