@@ -18,20 +18,20 @@ export type Database = {
         Row: {
           content: string
           document_id: string
-          embedding: string
-          id: number
+          embedding: string | null
+          id: string
         }
         Insert: {
           content: string
           document_id: string
-          embedding: string
-          id?: never
+          embedding?: string | null
+          id?: string
         }
         Update: {
           content?: string
           document_id?: string
-          embedding?: string
-          id?: never
+          embedding?: string | null
+          id?: string
         }
         Relationships: [
           {
@@ -45,21 +45,21 @@ export type Database = {
       }
       documents: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
           name: string
           storage_url: string
           workspace_id: string
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           name: string
           storage_url: string
           workspace_id: string
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           name?: string
           storage_url?: string
@@ -77,19 +77,19 @@ export type Database = {
       }
       workspaces: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
           name: string
           user_id: string
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           name: string
           user_id: string
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           name?: string
           user_id?: string
@@ -111,7 +111,7 @@ export type Database = {
         Returns: {
           content: string
           document_id: string
-          id: number
+          id: string
           similarity: number
         }[]
       }
