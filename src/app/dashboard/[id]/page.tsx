@@ -63,7 +63,7 @@ export default async function WorkspacePage({ params }: WorkspacePageProps) {
         ) : (
           <ul className="space-y-2">
             {files?.map((file) => (
-              <WorkspacePageFileCard key={file.id} file={file} />
+              <WorkspacePageFileCard key={file.id} file={file} fileId={file.id} />
             ))}
           </ul>
         )}

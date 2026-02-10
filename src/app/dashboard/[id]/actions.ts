@@ -5,6 +5,27 @@ import { PDFParse } from "pdf-parse";
 import { embedMany } from "ai";
 import { google } from "@ai-sdk/google";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+interface deleteFileProps {
+  fileId: string;
+  workspaceId: string;
+}
+
+export async function deleteFile({ fileId, workspaceId }: deleteFileProps) {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("documents")
+    .delete()
+    .eq("id", fileId)
+    .eq("workspace_id", workspaceId);
+
+  if (error) {
+    return { error: error.message };
+  }
+  revalidatePath(`/dashboard/${workspaceId}`, "layout");
+  redirect(`/dashboard/${workspaceId}`);
+}
 
 export async function uploadFile(formData: FormData) {
   const supabase = await createClient();
