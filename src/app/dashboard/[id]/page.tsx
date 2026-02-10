@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { ChatInterface } from "@/components/ChatInterface";
 import { UploadButton } from "@/components/UploadButton";
 import WorkspacePageFileCard from "@/components/WorkspacePageFileCard";
 import { createClient } from "@/lib/supabase/server";
@@ -71,9 +71,7 @@ export default async function WorkspacePage({ params }: WorkspacePageProps) {
 
       <div className="mt-8 border-t pt-8">
         <h2 className="mb-4 text-lg font-semibold">Chat with your Workspace</h2>
-        <div className="flex h-64 items-center justify-center rounded-lg bg-gray-100 text-gray-400">
-          Chat interface. TODO
-        </div>
+        <ChatInterface workspaceId={id} />
       </div>
     </div>
   );
