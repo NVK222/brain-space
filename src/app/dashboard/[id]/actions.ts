@@ -45,8 +45,13 @@ export async function uploadFile(formData: FormData) {
 
   try {
     const { embeddings } = await embedMany({
-      model: google.embedding("text-embedding-004"),
+      model: google.embedding("gemini-embedding-001"),
       values: chunks,
+      providerOptions: {
+        google: {
+          outputDimensionality: 1536,
+        },
+      },
     });
 
     const sections = chunks.map((chunk, i) => ({
