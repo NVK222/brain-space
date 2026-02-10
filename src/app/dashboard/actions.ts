@@ -2,6 +2,11 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+interface deleteWorkspaceProps {
+  workspaceId: string;
+}
 
 export async function createWorkspace(formData: FormData) {
   const supabase = await createClient();
@@ -22,4 +27,16 @@ export async function createWorkspace(formData: FormData) {
 
   revalidatePath("/dashboard", "layout");
   return { success: true };
+}
+
+export async function deleteWorkspace({ workspaceId }: deleteWorkspaceProps) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("workspaces").delete().eq("id", workspaceId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard", "layout");
+  redirect("/dashboard");
 }
