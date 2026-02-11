@@ -7,6 +7,8 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Loader2, Send } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Streamdown } from "streamdown";
+import "streamdown/styles.css";
 
 interface ChatInterfaceProps {
   workspaceId: string;
@@ -32,7 +34,7 @@ export function ChatInterface({ workspaceId }: ChatInterfaceProps) {
   };
 
   return (
-    <div className="flex h-[600px] flex-col rounded-lg border bg-white shadow-sm">
+    <div className="flex h-[600px] flex-col rounded-lg border shadow-sm">
       <ScrollArea className="flex-1 p-4">
         {messages.length === 0 && (
           <div className="mt-20 text-center text-gray-400">Ask a question about your documents</div>
@@ -48,12 +50,17 @@ export function ChatInterface({ workspaceId }: ChatInterfaceProps) {
                 <div
                   className={`max-w-[80%] rounded-lg p-3 ${m.role === "user" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900"}`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">
+                  <div className="text-sm whitespace-pre-wrap">
                     {m.parts.map((part, i) => {
-                      if (part.type === "text") return <span key={i}>{part.text}</span>;
+                      if (part.type === "text")
+                        return (
+                          <Streamdown key={i} animated isAnimating={status === "streaming"}>
+                            {part.text}
+                          </Streamdown>
+                        );
                       return null;
                     })}
-                  </p>
+                  </div>
                 </div>
               </div>
             );

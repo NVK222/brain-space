@@ -11,7 +11,6 @@ export async function POST(req: Request) {
   const { messages, workspaceId }: Response = await req.json();
   const lastMessage = messages[messages.length - 1];
   const lastMessageText = lastMessage.parts.find((p: any) => p.type === "text")?.text || "";
-  console.log(lastMessageText);
 
   const supabase = await createClient();
 
