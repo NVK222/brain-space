@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, UIMessage } from "ai";
 import { ScrollArea } from "./ui/scroll-area";
 import { Loader2, Send } from "lucide-react";
 import { Input } from "./ui/input";
@@ -24,6 +24,8 @@ export function ChatInterface({ workspaceId }: ChatInterfaceProps) {
     }),
   });
 
+  const bottomRef = useAutoScroll(messages, status);
+
   const isLoading = status === "submitted" || status === "streaming";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +37,7 @@ export function ChatInterface({ workspaceId }: ChatInterfaceProps) {
 
   return (
     <div className="flex h-[600px] flex-col rounded-lg border shadow-sm">
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="min-h-0 flex-1 p-4">
         {messages.length === 0 && (
           <div className="mt-20 text-center text-gray-400">Ask a question about your documents</div>
         )}
@@ -73,6 +75,8 @@ export function ChatInterface({ workspaceId }: ChatInterfaceProps) {
               </div>
             </div>
           )}
+
+          <div ref={bottomRef} className="h-px w-full" />
         </div>
       </ScrollArea>
 
@@ -92,4 +96,19 @@ export function ChatInterface({ workspaceId }: ChatInterfaceProps) {
       </div>
     </div>
   );
+}
+
+function useAutoScroll(messages: UIMessage[], status: string) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: "auto",
+        block: "end",
+      });
+    }
+  }, [messages, status]);
+
+  return scrollRef;
 }
