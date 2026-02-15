@@ -1,6 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import "pdf-parse/worker";
+import { CanvasFactory } from "pdf-parse/worker";
 import { PDFParse } from "pdf-parse";
 import { embedMany } from "ai";
 import { google } from "@ai-sdk/google";
@@ -47,7 +49,7 @@ export async function uploadFile(formData: FormData) {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
-  const parser = new PDFParse({ data: buffer });
+  const parser = new PDFParse({ data: buffer, CanvasFactory });
   const data = await parser.getText();
   const fulltext = data.text;
   await parser.destroy();
