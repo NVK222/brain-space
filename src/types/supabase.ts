@@ -18,19 +18,19 @@ export type Database = {
         Row: {
           content: string
           document_id: string
-          embedding: string | null
+          embedding: string
           id: string
         }
         Insert: {
           content: string
           document_id: string
-          embedding?: string | null
+          embedding: string
           id?: string
         }
         Update: {
           content?: string
           document_id?: string
-          embedding?: string | null
+          embedding?: string
           id?: string
         }
         Relationships: [
@@ -77,19 +77,19 @@ export type Database = {
       }
       workspaces: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: string
           name: string
           user_id: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           name: string
           user_id: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           name?: string
           user_id?: string

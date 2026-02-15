@@ -10,7 +10,7 @@ interface Response {
 export async function POST(req: Request) {
   const { messages, workspaceId }: Response = await req.json();
   const lastMessage = messages[messages.length - 1];
-  const lastMessageText = lastMessage.parts.find((p: any) => p.type === "text")?.text || "";
+  const lastMessageText = lastMessage.parts.find((p) => p.type === "text")?.text || "";
 
   const supabase = await createClient();
 
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   });
 
   const { data: documents } = await supabase.rpc("match_documents", {
-    query_embedding: embeddings[0] as any,
+    query_embedding: JSON.stringify(embeddings[0]),
     match_threshold: 0.3,
     match_count: 5,
     filter_workspace_id: workspaceId,

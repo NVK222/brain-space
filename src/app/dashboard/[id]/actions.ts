@@ -78,7 +78,7 @@ export async function uploadFile(formData: FormData) {
     const sections = chunks.map((chunk, i) => ({
       document_id: document.id,
       content: chunk,
-      embedding: embeddings[i] as any,
+      embedding: JSON.stringify(embeddings[i]),
     }));
 
     const { error: sectionError } = await supabase.from("document_sections").insert(sections);
@@ -86,8 +86,12 @@ export async function uploadFile(formData: FormData) {
     if (sectionError) {
       return { error: "Vector save failed :  " + sectionError.message };
     }
-  } catch (e) {
-    return { error: "AI embedding failed. Check API key" };
+  } catch (e: unknown) {
+    const message =
+      e instanceof Error ? e.message : "An unexpected error occured during processing";
+    return {
+      error: `AI processing failed: ${message}`,
+    };
   }
 
   revalidatePath(`/dashboard/${workspaceId}`);
