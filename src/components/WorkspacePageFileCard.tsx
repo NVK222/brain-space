@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { X } from "lucide-react";
 import { deleteFile } from "@/app/dashboard/[id]/actions";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 interface WorkspacePageFileCardProps {
   file: File;
@@ -19,7 +20,10 @@ export default function WorkspacePageFileCard({ file, fileId }: WorkspacePageFil
         <Button
           size="icon-sm"
           onClick={async () => {
-            await deleteFile({ fileId, workspaceId });
+            const { error } = await deleteFile({ fileId, workspaceId });
+            if (error) {
+              toast.error(error);
+            }
           }}
         >
           <X></X>

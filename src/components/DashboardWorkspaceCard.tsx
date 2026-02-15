@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
 import { deleteWorkspace } from "@/app/dashboard/actions";
+import { toast } from "sonner";
 
 interface DashboardWorkspaceCardProps {
   workspace: Workspace;
@@ -22,7 +23,10 @@ export default function DashboardWorkspaceCard({ workspace }: DashboardWorkspace
             <Button
               size="icon-sm"
               onClick={async () => {
-                await deleteWorkspace({ workspaceId });
+                const { error } = await deleteWorkspace({ workspaceId });
+                if (error) {
+                  toast.error(error);
+                }
               }}
             >
               <X></X>

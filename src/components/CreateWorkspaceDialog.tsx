@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { createWorkspace } from "@/app/dashboard/actions";
 import { Input } from "./ui/input";
+import { toast } from "sonner";
 
 export default function CreateWorkspaceDialog() {
   const [open, setOpen] = useState(false);
@@ -23,7 +24,10 @@ export default function CreateWorkspaceDialog() {
         </DialogHeader>
         <form
           action={async (formData) => {
-            await createWorkspace(formData);
+            const { error } = await createWorkspace(formData);
+            if (error) {
+              toast.error(error);
+            }
             setOpen(false);
           }}
           className="space-y-4"

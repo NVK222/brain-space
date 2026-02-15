@@ -5,9 +5,26 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { login, signup } from "@/app/login/actions";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function AuthPage() {
   const [doLogin, setDoLogin] = useState<boolean>(true);
+
+  const handleLogin = async (formData: FormData) => {
+    const { error } = await login(formData);
+    if (error) {
+      toast.error(error);
+    }
+  };
+
+  const handleSignUp = async (formData: FormData) => {
+    const { error } = await signup(formData);
+    if (!error) {
+      toast.success("Signed Up successfully. Please Login");
+    } else {
+      toast.error(error);
+    }
+  };
 
   return doLogin ? (
     <div className="flex h-screen items-center justify-center px-4">
@@ -27,7 +44,7 @@ export function AuthPage() {
               <Input id="password" name="password" type="password" required />
             </div>
             <div className="mt-2 flex flex-col gap-2">
-              <Button formAction={login} className="w-full">
+              <Button formAction={handleLogin} className="w-full">
                 Sign in
               </Button>
               <Button
@@ -69,7 +86,7 @@ export function AuthPage() {
               />
             </div>
             <div className="mt-2 flex flex-col gap-2">
-              <Button formAction={signup} className="w-full">
+              <Button formAction={handleSignUp} className="w-full">
                 Sign Up
               </Button>
               <Button
